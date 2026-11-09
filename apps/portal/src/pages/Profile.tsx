@@ -1,4 +1,6 @@
 import { useState, type FormEvent } from "react";
+import { useAction } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
 import { useWorkspace } from "../data/workspaceContext";
 import {
   Avatar,
@@ -82,8 +84,57 @@ export function Profile() {
               </button>
             </div>
           </form>
+          <PasswordForm />
         </section>
       </div>
+    </>
+  );
+}
+
+function PasswordForm() {
+  const changePassword = useAction(api.auth.changePassword);
+  const { run, message, pending } = useFeedback();
+  const [mismatch, setMismatch] = useState(false);
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const fields = new FormData(form);
+    const currentPassword = String(fields.get("currentPassword") ?? "");
+    const newPassword = String(fields.get("newPassword") ?? "");
+    if (newPassword !== fields.get("confirmPassword")) {
+      setMismatch(true);
+      return;
+    }
+    if (await run(() => changePassword({ currentPassword, newPassword }), "Your password has been changed.")) {
+      form.reset();
+    }
+  }
+
+  return (
+    <>
+      <div className="panel-heading">
+        <div>
+          <h2 id="profile-password-title">Change password</h2>
+          <p className="quiet">Use 12 to 128 characters. Changing your password signs you out on other devices.</p>
+        </div>
+      </div>
+      {message}
+      <form className="panel-body" aria-labelledby="profile-password-title" onSubmit={submit} onChange={() => setMismatch(false)}>
+        {mismatch && <p className="notice notice-error" role="alert">The new passwords do not match.</p>}
+        <Field label="Current password">
+          <input name="currentPassword" type="password" autoComplete="current-password" maxLength={128} required disabled={pending} />
+        </Field>
+        <Field label="New password">
+          <input name="newPassword" type="password" autoComplete="new-password" minLength={12} maxLength={128} required disabled={pending} />
+        </Field>
+        <Field label="Confirm new password">
+          <input name="confirmPassword" type="password" autoComplete="new-password" minLength={12} maxLength={128} required disabled={pending} />
+        </Field>
+        <div className="form-actions">
+          <button className="btn" disabled={pending}>Change password <Icon name="check" /></button>
+        </div>
+      </form>
     </>
   );
 }

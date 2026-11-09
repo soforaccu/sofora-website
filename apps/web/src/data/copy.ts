@@ -28,7 +28,7 @@ type Row = readonly [PageId, string, string, string, string, Kind?];
 
 const rows = [
   // Shared: header, navigation, footer
-  ["shared", "Header", "Top bar message", "shared.topbar", "Welcome to Sofora Cooperative Credit Union"],
+  ["shared", "Header", "Top bar message", "shared.topbar-welcome", "Welcome to Sofora Cooperative Credit Union"],
   ["shared", "Header", "Logo", "shared.logo", "/images/logo.png", "image"],
   ["shared", "Header", "Organisation name", "shared.name", "Sofora Cooperative Credit Union"],
   ["shared", "Header", "Page header photo (all inner pages)", "shared.header-image", "/images/page-header-about.jpg", "image"],

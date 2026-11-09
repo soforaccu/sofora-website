@@ -225,21 +225,9 @@ main:focus {
   min-height: 44px;
 }
 .top-bar-welcome {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   margin: 0;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-.top-bar-welcome::before {
-  content: "";
-  flex: none;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--pink);
-  box-shadow: 0 0 0 3px rgba(245, 31, 138, 0.25);
 }
 .top-bar-links {
   display: flex;

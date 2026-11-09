@@ -37,6 +37,7 @@ Read this first. It is kept current; `README.md` has the full human-facing detai
 | Editable page list in the portal, per-page validation | `apps/portal/src/data/content.ts` (`documents`, `applyDocument`, `contentError`) |
 | Portal editor UI for lists and photos | `apps/portal/src/components/ContentFields.tsx` |
 | Roles and permissions (shared by portal and backend) | `apps/portal/src/data/types.ts` (`can()`) |
+| Staff password changes | My profile (`apps/portal/src/pages/Profile.tsx`) calls `auth.changePassword` in `convex/auth.ts`. It verifies the current password and invalidates other sessions. |
 | Content storage and server validation | `convex/content.ts` |
 | Loading skeletons (shown while Convex data loads) | Website: `apps/web/src/components/Skeleton.tsx` (`SiteSkeleton`, used by `LiveWebsite` and the portal preview). Portal: `apps/portal/src/components/Skeleton.tsx` (`ShellSkeleton` for the session/workspace load, `PageSkeleton` picks one per route; add a case when you add a portal page). Styles are under "Loading skeleton" at the end of each app's `styles.css`. |
 | Portal confirmations ("Saved.") and errors | `useFeedback()` in `apps/portal/src/components/ui.tsx`: `run(action, "Success message.")` shows the success as a toast (`components/Toast.tsx`, mounted in `main.tsx`) and errors inline where `{message}` is rendered. Use it for any new save/edit action. |
@@ -80,7 +81,7 @@ To find a page's fields: `grep -n '"<page id>\.' apps/web/src/data/copy.ts`.
 - **Add a website page:** add its id to `pageIds` in `copy.ts`, rows for its fields, a route in `App.tsx`, an entry in `documents` (portal `data/content.ts`), and a path in `search.ts`. Then run `pnpm exec convex run setup:addMissingPages`, because the database has no row for the new page (it leaves existing pages alone).
 - **Add a field to every loan/savings product:** add it to `Product` and each product in `content.ts`, and to `productFields` (portal `data/content.ts`), which drives the editor and both validations. Stored products get the default for new fields (`withProductDefaults` in `convex/content.ts`), so no reset is needed.
 - **Remove or rename a text/image field:** delete or edit its `copy.ts` row and its uses. Stored values for keys that no longer exist are ignored when the site loads and dropped on that page's next save, so no migration is needed. A renamed key starts from its new default. Moving a row to another page id also resets it to the default.
-- **Change a default label that is already stored:** saved pages keep their old value. Give the row a new key so the new default shows (as done for `shared.nav-forms-downloads`).
+- **Change a default label that is already stored:** saved pages keep their old value. Give the row a new key so the new default shows (as done for `shared.nav-forms-downloads` and `shared.topbar-welcome`).
 - **Reset dev content to defaults** (wipes content edits): `pnpm exec convex run setup:resetPages`.
 - **Change the Convex schema when data already exists:** a push fails if existing documents don't match. Loosen the field (optional / `v.string()`), push with `pnpm exec convex dev --once --typecheck disable` if types break, migrate the data with an internal mutation, then tighten and push again. Never use `--typecheck disable` for the final push. After adding application attachments, run `pnpm exec convex run setup:backfillApplicationAttachments` once on deployments that already had applications.
 - **Board and staff people** (`Person` in `content.ts`: slug, name, role, photo, quote, bio, since, focus, email) are lists on the `board`/`staff` pages, edited in the portal like partners. New people get a slug from their name (`slugify`/`uniqueSlug`); people already on the live site keep theirs when renamed. Older saves stored `[name, role, photo]` rows; `toPeople` (used by `merge` in `convex/content.ts`) converts them on read, so no migration is needed. To add a field, add it to `Person`, `emptyPerson`, the defaults, `personLimits` in `convex/content.ts` and the editor in `ContentFields.tsx`.
@@ -113,3 +114,17 @@ Read `docs/README.md` inside that installed package first, then read the relevan
 
 This block is written and re-added by `turbo` before repository-scoped commands when an AI agent is detected. In the Turborepo source repository, its template is defined in `crates/turborepo-cli/src/cli/agent_guidance.rs`. Removing the managed block while updates are enabled means a later qualifying invocation will add it again. Set `"agentGuidance": false` in the root `turbo.json` or `turbo.jsonc` to opt out; this does not remove an existing block. Keep the block committed with your work to avoid an uncommitted change on the next agent invocation.
 <!-- END:turborepo-agent-rules -->
+
+<!-- convex-ai-start -->
+
+This project uses [Convex](https://convex.dev) as its backend.
+
+When working on Convex code, **always read
+`convex/_generated/ai/guidelines.md` first** for important guidelines on
+how to correctly use Convex APIs and patterns. The file contains rules that
+override what you may have learned about Convex from training data.
+
+Convex agent skills for common tasks can be installed by running
+`npx convex ai-files install`.
+
+<!-- convex-ai-end -->

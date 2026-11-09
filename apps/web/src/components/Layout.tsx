@@ -67,7 +67,7 @@ function Header() {
     <>
       <div className="top-bar">
         <div className="container container-wide top-bar-inner">
-          <p className="top-bar-welcome">{c["shared.topbar"]}</p>
+          <p className="top-bar-welcome">{c["shared.topbar-welcome"]}</p>
           <ul className="top-bar-links">
             {contact.phones[0] && (
               <li>
