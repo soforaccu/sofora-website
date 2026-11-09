@@ -24,7 +24,7 @@ const posts = [
 ] as const;
 
 // Gathers the visible text of each page (and each blog post) from the current content.
-function entries(content: WebsiteContent): Entry[] {
+export function websiteSearchEntries(content: WebsiteContent): Entry[] {
   const { copy: c } = content;
   const textOf = (page: PageId, skipPrefix?: string) =>
     copyFields
@@ -74,7 +74,7 @@ export type SearchResult = { title: string; path: string; snippet: string };
 export function searchSite(content: WebsiteContent, query: string): SearchResult[] {
   const words = query.toLowerCase().split(/\s+/).filter(Boolean);
   if (!words.length) return [];
-  return entries(content)
+  return websiteSearchEntries(content)
     .map((entry) => {
       const text = entry.text.replace(/\s+/g, " ").trim();
       const haystack = `${entry.title} ${text}`.toLowerCase();

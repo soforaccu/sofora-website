@@ -1,30 +1,17 @@
 import type { CSSProperties, ReactNode } from "react";
 import { Link, useParams } from "react-router";
 import { useWebsite } from "../data/WebsiteContent";
+import { websiteDownloads } from "../data/downloads";
 import { applyPath, isLoan, servicePath, type Product } from "../data/content";
 import { LoanCalculator } from "../components/LoanCalculator";
 import { Icon, ServiceIcon } from "../components/Icon";
 import { CtaBanner, HeroBanner, ProductGrid, lines, usePageTitle } from "../components/ui";
 import { NotFound } from "./NotFound";
 
-// Each PDF form, with the online form that replaces it.
-const onlineForms = ["/loan-application-form/", "/registration-form/", "/kafo-application-form/", "/membership-application-form/"];
-
-function useDownloads() {
-  const { copy: c } = useWebsite();
-  return ([1, 2, 3, 4] as const).map((n) => ({
-    title: c[`downloads.file-${n}-title`],
-    category: c[`downloads.file-${n}-category`],
-    date: c[`downloads.file-${n}-date`],
-    path: c[`downloads.file-${n}-path`],
-    online: onlineForms[n - 1]!,
-  }));
-}
-
 // /services/: every loan and savings product, how membership works, calculator and forms.
 export function ServicesHub() {
   const { copy: c, loans, savings } = useWebsite();
-  const files = useDownloads();
+  const files = websiteDownloads(c);
   const forms = [
     ["shared.nav-membership-form", "/membership-application-form/"],
     ["shared.nav-loan-form", "/loan-application-form/"],
@@ -380,7 +367,7 @@ function SavingBoxesStory() {
 export function Downloads() {
   const { copy: c } = useWebsite();
   usePageTitle(c["downloads.title"]);
-  const files = useDownloads();
+  const files = websiteDownloads(c);
   const forms = [
     ["shared.nav-membership-form", "/membership-application-form/"],
     ["shared.nav-loan-form", "/loan-application-form/"],

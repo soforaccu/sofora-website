@@ -34,6 +34,7 @@ Read this first. It is kept current; `README.md` has the full human-facing detai
 | Shared blocks (slider, page header, photo hero `HeroBanner`, closing `CtaBanner`, product cards, people grid, FAQ) | `apps/web/src/components/ui.tsx` |
 | Colours, fonts, all public styling | `apps/web/src/styles.css` (tokens at the top) |
 | Site search | `apps/web/src/data/search.ts` (client-side over live content; results at `/?s=`) |
+| Ask Sofora (public English chat) | `apps/web/src/components/AskSofora.tsx` → `convex/askSofora.ts`. Uses published website content and links to forms, directions, and staff. Model and WhatsApp configuration are in `convex/README.md`. |
 | Editable page list in the portal, per-page validation | `apps/portal/src/data/content.ts` (`documents`, `applyDocument`, `contentError`) |
 | Portal editor UI for lists and photos | `apps/portal/src/components/ContentFields.tsx` |
 | Roles and permissions (shared by portal and backend) | `apps/portal/src/data/types.ts` (`can()`) |

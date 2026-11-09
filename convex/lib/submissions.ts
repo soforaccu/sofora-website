@@ -10,6 +10,7 @@ import { hash } from "./access";
 // - rate limits overall and per email address, with a readable message;
 // - the same details sent again (any form session) are refused with the earlier reference.
 export const limiter = new RateLimiter(components.rateLimiter, {
+  askSofora: { kind: "token bucket", rate: 120, period: HOUR, capacity: 15 },
   submissions: { kind: "fixed window", rate: 200, period: HOUR },
   emailSubmissions: { kind: "fixed window", rate: 5, period: HOUR },
   emailDaily: { kind: "fixed window", rate: 10, period: DAY },

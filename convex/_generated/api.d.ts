@@ -9,6 +9,7 @@
  */
 
 import type * as applications from "../applications.js";
+import type * as askSofora from "../askSofora.js";
 import type * as auth from "../auth.js";
 import type * as contact from "../contact.js";
 import type * as content from "../content.js";
@@ -31,6 +32,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   applications: typeof applications;
+  askSofora: typeof askSofora;
   auth: typeof auth;
   contact: typeof contact;
   content: typeof content;
