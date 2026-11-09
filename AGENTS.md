@@ -72,6 +72,8 @@ To find a page's fields: `grep -n '"<page id>\.' apps/web/src/data/copy.ts`.
 
 ## Finding things fast
 
+- **Home loan rates:** the strip below the slider uses two columns on phones (up to 640px), with the final rate centered across the last row. The loading skeleton shares the same grid.
+
 - **CSS:** both `styles.css` files have a section comment per area. `grep -n "^/\* " apps/web/src/styles.css` gives a table of contents with line numbers. In the website CSS, most mobile rules are **not** next to the component: they're in the shared `/* Responsive */` media blocks at the end, so check both places. Tokens (colours, fonts) are at the top of each file.
 - **Field kinds** (last column of a `copy.ts` row): `text` (default), `image` (`/images/<name>` or an uploaded `storage:` id), `url` (http/https). Empty URLs are allowed only for keys listed in `optionalUrl` in `copy.ts`. Validation is `contentError` in `apps/portal/src/data/content.ts`.
 - **Forms in the preview:** the portal preview (and `pnpm screenshot` by default) renders public pages with `preview` set. Pages that submit to Convex (`Apply`, `Contact`) take a `preview` prop and refuse to submit with it. Do the same for any new form.

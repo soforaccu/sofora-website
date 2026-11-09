@@ -4555,16 +4555,41 @@ a.partner-card:hover .partner-visit .icon {
   .slider-dots button {
     width: 40px;
   }
-  .rates-grid,
   .card-grid,
   .form-grid,
   .video-grid,
   .post-photos {
     grid-template-columns: 1fr;
   }
+  .rates-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .rate {
-    border-right: 0;
+    gap: 8px;
+    padding: 12px;
     border-bottom: 1px solid var(--line);
+  }
+  .rate:nth-child(even) {
+    border-right: 0;
+  }
+  .rate:last-child {
+    grid-column: 1 / -1;
+    border-bottom: 0;
+  }
+  .rate img {
+    width: 32px;
+    height: 32px;
+  }
+  .rate strong {
+    font-size: 20px;
+  }
+  .rate span {
+    display: block;
+    line-height: 1.3;
+  }
+  .rate > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .section-title h2,
   .section-heading {
@@ -4877,6 +4902,10 @@ a.partner-card:hover .partner-visit .icon {
   }
 }
 @media (max-width: 640px) {
+  .site-skeleton .rate .bone-round {
+    width: 32px !important;
+    height: 32px !important;
+  }
   .site-skeleton .top-bar-inner .bone:last-child {
     display: none;
   }
